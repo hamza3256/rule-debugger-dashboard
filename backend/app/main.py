@@ -187,6 +187,8 @@ if _FRONTEND_DIST.is_dir():
 
     @app.get("/{full_path:path}")
     def spa_fallback(full_path: str):
+        if full_path == "api" or full_path.startswith("api/"):
+            raise HTTPException(404, "Not Found")
         file = _FRONTEND_DIST / full_path
         if file.is_file():
             return FileResponse(file)
