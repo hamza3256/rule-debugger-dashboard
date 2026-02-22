@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from .data_store import (
     AMOUNT_P95,
@@ -175,3 +177,17 @@ def rule_stats(rule_id: str = Query(...)):
     if stats is None:
         raise HTTPException(404, "Rule not found")
     return stats
+
+
+# ── Static file serving (production) ─────────────────────────────────────
+_FRONTEND_DIST = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+
+if _FRONTEND_DIST.is_dir():
+    _INDEX_HTML = _FRONTEND_DIST / "index.html"
+
+    @app.get("/{full_path:path}")
+    def spa_fallback(full_path: str):
+        file = _FRONTEND_DIST / full_path
+        if file.is_file():
+            return FileResponse(file)
+        return FileResponse(_INDEX_HTML)

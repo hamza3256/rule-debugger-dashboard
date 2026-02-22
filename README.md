@@ -4,12 +4,22 @@ A full-stack dashboard for inspecting and debugging fraud-detection rules agains
 
 ## Quick Start
 
-### Prerequisites
+### Option A: Docker (recommended)
+
+```bash
+docker compose up --build
+```
+
+Open **http://localhost:8000**. The single container builds the React frontend, then serves both the API and the UI from uvicorn. No other dependencies needed.
+
+### Option B: Local development
+
+#### Prerequisites
 
 - **Python 3.10+** with `venv` support
 - **Node.js 18+** and npm
 
-### 1. Start the backend (FastAPI)
+#### 1. Start the backend (FastAPI)
 
 ```bash
 cd backend
@@ -21,7 +31,7 @@ uvicorn app.main:app --port 8000
 
 The API loads `transactions.json`, `feature_vectors.json`, and `example_rules.json` from the repo root on startup (~39k transactions). It sanitises non-standard `NaN` values to `null` and precomputes rule statistics and fired-transaction sets so the UI loads instantly.
 
-### 2. Start the frontend (React + Vite)
+#### 2. Start the frontend (React + Vite)
 
 ```bash
 cd frontend
@@ -99,6 +109,7 @@ python -m pytest tests/ -v
 - **Backend:** Python 3, FastAPI, Pydantic, Uvicorn, Pytest
 - **Frontend:** React 19, TypeScript, Vite, TanStack Query
 - **Styling:** Tailwind CSS v4, shadcn/ui (Radix UI primitives), dark theme
+- **Deployment:** Docker (multi-stage build), docker compose
 
 ## Design Decisions
 
