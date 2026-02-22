@@ -1,0 +1,23 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.pytest_cache/
+*.py[cod]
+*.pyo
+.Python
+*.so
+.env
+.env.*
+!.env.example
+
+# Node / Frontend (frontend/.gitignore covers most; root-level safeguards)
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE (optional; uncomment if you want to ignore)
+# .vscode/
+# .idea/
